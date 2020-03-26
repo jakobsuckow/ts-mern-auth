@@ -1,8 +1,6 @@
-// Packages
 import React from "react"
 import { Route } from "react-router-dom"
 
-// Custom component
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Profile from "./pages/Profile"

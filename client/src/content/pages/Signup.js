@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react"
 import { Redirect } from "react-router-dom"
 
 const Signup = props => {
-  // Declare and initialize state variables
   let [email, setEmail] = useState("")
   let [firstname, setFirstname] = useState("")
   let [lastname, setLastname] = useState("")
@@ -22,7 +21,7 @@ const Signup = props => {
         firstname,
         lastname,
         email,
-        password,
+        password
       }),
       headers: {
         "Content-Type": "application/json"
@@ -34,7 +33,6 @@ const Signup = props => {
         return
       }
 
-      // if user signuped succesfully
       response.json().then(result => {
         props.updateUser(result.token)
       })
