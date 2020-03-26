@@ -1,16 +1,12 @@
-// Require needed packages
-require("dotenv").config()
-let cors = require("cors")
+import cors from "cors"
 import express, { Request, Response } from "express"
-let expressJwt = require("express-jwt")
-let morgan = require("morgan")
-let rowdyLogger = require("rowdy-logger")
-let path = require("path")
+import morgan from "morgan"
+import path from "path"
 import connectDB from "./models"
+import router from "./routes"
 
 // Instantiate app
 let app = express()
-let rowdyResults = rowdyLogger.begin(app)
 
 // Set up middleware
 app.use(morgan("dev"))
@@ -23,30 +19,12 @@ app.use(express.json()) // Accept data from fetch (or any AJAX call)
 connectDB()
 
 // Routes
-app.use(
-  "/auth",
-  expressJwt({
-    secret: process.env.JWT_SECRET
-  }).unless({
-    // unless defines exceptions to the rule
-    path: [
-      { url: "/auth/login", methods: ["POST"] },
-      { url: "/auth/signup", methods: ["POST"] }
-    ]
-  }),
-  require("./controllers/auth")
-)
-
-app.use(
-  "/dogs",
-  expressJwt({ secret: process.env.JWT_SECRET }),
-  require("./controllers/dogs")
-)
+app.use("/", router)
 
 app.get("*", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "/client/build/index.html"))
 })
 
 app.listen(process.env.PORT, () => {
-  rowdyResults.print()
+  console.log(`node running`)
 })
